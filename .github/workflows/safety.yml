@@ -1,4 +1,4 @@
-# Flake8 to enforce PEP8
+# Run safety to check for vulnerabilities in dependencies
 
 name: CI
 
@@ -27,11 +27,6 @@ jobs:
       - uses: excitedleigh/setup-nox@v2.0.0
 
       # Runs a single command using the runners shell
-      - name: Run flake8
-        run: nox -s flake8
+      - name: Run safety
+        run: nox -s safety
 
-      # Runs a set of commands using the runners shell
-      #- name: Run a multi-line script
-      #  run: |
-      #    echo Add other actions to build,
-      #    echo test, and deploy your project.
