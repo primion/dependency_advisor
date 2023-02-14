@@ -48,13 +48,13 @@ class Severity(IntEnum):
                 cvss = user_data
         except Exception as exc:
             raise ValueError from exc
-        if cvss >= 0.1 and cvss <= 3.9:
+        if 0 < cvss <= 3.9:
             return cls(cls.LOW)
-        if cvss >= 4.0 and cvss <= 6.9:
+        if 4.0 <= cvss <= 6.9:
             return cls(cls.MEDIUM)
-        if cvss >= 7.0 and cvss <= 8.9:
+        if 7.0 <= cvss <= 8.9:
             return cls(cls.HIGH)
-        if cvss >= 9.0 and cvss <= 10:
+        if 9.0 <= cvss <= 10:
             return cls(cls.CRITICAL)
 
         # Ok, nothing worked
