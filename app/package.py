@@ -20,9 +20,6 @@ from app.vulnerability import Vulnerability
 from app.release import Release
 
 
-
-
-
 class Package():
     """ A specific package, contains several releases """
 
@@ -181,7 +178,7 @@ class Package():
         for stat in stats:
             print(stat)
 
-    def load_grype(self)-> None:
+    def load_grype(self) -> None:
         """ Loads the grype DB of vulnerabilities for this package
 
         """
