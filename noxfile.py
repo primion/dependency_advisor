@@ -5,7 +5,9 @@
 
 import nox
 
-supported_python_versions = ["3.10.7", "3.11.1"]
+supported_python_versions = ["3.10.7",  # Ubuntu 22.10
+
+                             "3.11.1"]
 
 nox.error_on_external_run=False
 
