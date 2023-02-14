@@ -39,5 +39,8 @@ class Release():
         self.vulnerabilities.append(vulnerability)
 
     def __str__(self) -> str:
-        vulnerabilities = ",".join(self.vulnerabilities.get_cves())
-        return f"{self.published_at}: {self.version} {vulnerabilities}"
+        cves = []
+        for vulnerability in self.vulnerabilities:
+            cves.append(vulnerability.get_cves())
+        cvestring = ",".join(cves)
+        return f"{self.published_at}: {self.version} {cvestring}"
