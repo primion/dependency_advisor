@@ -23,7 +23,7 @@ from app.release import Release
 class Package():
     """ A specific package, contains several releases """
 
-    def __init__(self, packagename: str, db_file: str, alternative_names: Optional[List[str]]=None) -> None:
+    def __init__(self, packagename: str, db_file: str, alternative_names: Optional[List[str]] = None) -> None:
         """
 
         @param packagename: Exact name of a package so libraries.io can find it. Maybe test it in thier webui first. Example 'org.apache.tomcat:tomcat'
