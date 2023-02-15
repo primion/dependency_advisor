@@ -8,7 +8,7 @@ from typing import Optional, Tuple
 
 
 @total_ordering
-class Version():
+class Version():  # type: ignore
     """ Handline version strings major.minor.build-extension style """
     def __init__(self, as_string: Optional[str]) -> None:
         if as_string is None:
@@ -76,8 +76,8 @@ class Version():
         """ The version number as 4 int tuple """
         return self.major, self.minor, self.build, self.extension
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other) -> bool:  # type: ignore
         return self.version == other.version
 
-    def __lt__(self, other) -> bool:
+    def __lt__(self, other) -> bool:  # type: ignore
         return self.version < other.version

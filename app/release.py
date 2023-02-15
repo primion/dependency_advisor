@@ -3,7 +3,7 @@
 """ A class describing a package release """
 
 import datetime
-from typing import List
+from typing import List, Union, Optional
 
 from app.version import Version
 from app.vulnerability import Vulnerability
@@ -12,7 +12,7 @@ from app.vulnerability import Vulnerability
 class Release():
     """ A specific release of the package """
 
-    def __init__(self, version, published_at):
+    def __init__(self, version: Union[Version, Optional[str]], published_at: Union[datetime.datetime, str]):
         """
 
         @param version: Version or str to parse
@@ -34,13 +34,13 @@ class Release():
 
         self.vulnerabilities: List[Vulnerability] = []
 
-    def add_vulnerability(self, vulnerability):
+    def add_vulnerability(self, vulnerability: Vulnerability) -> None:
         """ Adds a vulnerability to this version """
         self.vulnerabilities.append(vulnerability)
 
     def __str__(self) -> str:
-        cves = []
+        cves: List[str] = []
         for vulnerability in self.vulnerabilities:
-            cves.append(vulnerability.get_cves())
+            cves = cves + vulnerability.get_cves()
         cvestring = ",".join(cves)
         return f"{self.published_at}: {self.version} {cvestring}"
