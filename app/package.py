@@ -23,7 +23,7 @@ from app.release import Release
 class Package():
     """ A specific package, contains several releases """
 
-    def __init__(self, packagename, db_file, alternative_names=None) -> None:
+    def __init__(self, packagename: str, db_file: str, alternative_names: Optional[List[str]] = None) -> None:
         """
 
         @param packagename: Exact name of a package so libraries.io can find it. Maybe test it in thier webui first. Example 'org.apache.tomcat:tomcat'
@@ -114,7 +114,7 @@ class Package():
     def download_libraries(self) -> None:
         """ search libraries.io. Needs a API key set ! """
 
-        def sortkey(akey):
+        def sortkey(akey: Release) -> datetime.datetime:
             return akey.published_at
 
         namehash = hashlib.sha256()
@@ -280,7 +280,7 @@ class Package():
                 res += 1
         return res
 
-    def severity_dict(self, check_version):
+    def severity_dict(self, check_version: Union[str, Version]) -> dict[Severity, int]:
         """ Create a severity dict for this version """
 
         res = {Severity.LOW: 0,

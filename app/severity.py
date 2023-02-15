@@ -15,7 +15,7 @@ class Severity(IntEnum):
     CRITICAL = 4
 
     @classmethod
-    def parse(cls, user_data: Union[str, int, float]):
+    def parse(cls, user_data: Union[str, int, float]):  # type: ignore
         """ Create enum from a text description of the severity (aka "low") or a CVSS level as float or int
 
         CVSS V3        Severity

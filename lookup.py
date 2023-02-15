@@ -10,7 +10,7 @@ from app.package import Package, Version
 ##########
 
 
-def subparser_list(arguments) -> None:
+def subparser_list(arguments: argparse.Namespace) -> None:
     """ Handle sub command list """
 
     apackage = Package(arguments.packagename, arguments.grype_db, alternative_names=arguments.alternative_names.split(","))
@@ -18,7 +18,7 @@ def subparser_list(arguments) -> None:
     print(apackage.sorted_releases_str())
 
 
-def subparser_check(arguments) -> None:
+def subparser_check(arguments: argparse.Namespace) -> None:
     """ Check a specific version """
     apackage = Package(arguments.packagename, arguments.grype_db, alternative_names=arguments.alternative_names.split(","))
 
@@ -29,7 +29,7 @@ def subparser_check(arguments) -> None:
     print(apackage.severity_dict(arguments.packageversion))
 
 
-def subparser_alternatives(arguments) -> None:
+def subparser_alternatives(arguments: argparse.Namespace) -> None:
     """ Handle sub command list """
 
     apackage = Package(arguments.packagename, arguments.grype_db, alternative_names=arguments.alternative_names.split(","))
@@ -41,7 +41,7 @@ def subparser_alternatives(arguments) -> None:
     print(apackage.sorted_releases_str(earliest=earliest, details=True))
 
 
-def subparser_grype(arguments) -> None:
+def subparser_grype(arguments: argparse.Namespace) -> None:
     """ Direct grype call to test the database """
 
     apackage = Package(arguments.packagename, arguments.grype_db, alternative_names=arguments.alternative_names.split(","))
