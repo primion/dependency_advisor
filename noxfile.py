@@ -48,4 +48,14 @@ def pylint(session):
     # pylint --rcfile=pylint.rc  foo.py
     session.run("pylint","--rcfile=pylint.rc", "lookup.py", "app/package.py", "app/severity.py", "app/version.py", "app/release.py", "app/vulnerability.py")
 
-    
+@nox.session(python=supported_python_versions,venv_backend='venv')
+def unittest(session):
+    """ Running unittests with coverage """
+    session.install("coverage")
+    session.install("-r", "requirements.txt")    
+    # python -m unittest discover -s tests
+    # coverage run --source=app -m unittest discover -s tests
+    session.run("coverage","run", "--source=app", "-m","unittest", "discover", "-s", "tests")
+    # to get command line report: "coverage report"
+    # to get command html report: "coverage html"
+
