@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" Vulnerability severity rating """
+"""Vulnerability severity rating."""
 
 
 from enum import IntEnum
@@ -8,7 +8,8 @@ from typing import Union
 
 
 class Severity(IntEnum):
-    """ Enum for severity levels. With some convenience functions """
+    """Enum for severity levels. With some convenience functions."""
+
     LOW = 1
     MEDIUM = 2
     HIGH = 3
@@ -16,15 +17,17 @@ class Severity(IntEnum):
 
     @classmethod
     def parse(cls, user_data: Union[str, int, float]):  # type: ignore
-        """ Create enum from a text description of the severity (aka "low") or a CVSS level as float or int
+        """Create enum from a text description of the severity (aka "low") or a CVSS level as float or int.
 
         CVSS V3        Severity
         0.1-3.9        Low
         4.0-6.9        Medium
         7.0-8.9        High
         9.0-10.0       Critical
-        """
 
+        :param user_date: a text or CVSS description of the severity
+        :type user_data: either a str, int or float
+        """
         textmatch = {"NEGLIGIBLE": cls.LOW,    # Yeah, seriously. DB is haunted.
                      "UNKNOWN": cls.LOW,    # Yeah, seriously. DB is haunted.
                      "LOW": cls.LOW,
@@ -61,4 +64,9 @@ class Severity(IntEnum):
         raise ValueError
 
     def __str__(self) -> str:
+        """Return the name-text of the enum.
+
+        :return: the name-text of the enum. The severity as in CRITICAL or LOW
+        :rtype: str
+        """
         return self.name
