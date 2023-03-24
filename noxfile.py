@@ -13,6 +13,7 @@ nox.error_on_external_run=False
 
 @nox.session(python=supported_python_versions,venv_backend='venv')
 def flake8(session):
+    """ Flake8 PEP 8 quality check """
     session.install("flake8")
     session.install("-r", "requirements.txt")
     # E 501 is long line
@@ -20,6 +21,7 @@ def flake8(session):
 
 @nox.session(python=supported_python_versions,venv_backend='venv')
 def safety(session):
+    """ Check requirements for vulnerabilities """
     session.install("safety")
     session.install("-r", "requirements.txt")
     # safety check -r requirements.txt
@@ -27,14 +29,15 @@ def safety(session):
 
 @nox.session(python=supported_python_versions,venv_backend='venv')
 def bandit(session):
+    """ Check for common vulnerabilities """
     session.install("bandit")
     session.install("-r", "requirements.txt")
-    # Check for common vulnerabilities
     # bandit -ll -r  foo.py    ( -ll = medium level and higher, -r recursive)
     session.run("bandit","-ll", "-r", "lookup.py", "app/package.py", "app/severity.py", "app/version.py", "app/release.py", "app/vulnerability.py")
 
 @nox.session(python=supported_python_versions,venv_backend='venv')
 def mypy(session):
+    """ Envorcing types """
     session.install("mypy")
     session.install("-r", "requirements.txt")
     # Check for wrong types
@@ -43,6 +46,7 @@ def mypy(session):
 
 @nox.session(python=supported_python_versions,venv_backend='venv')
 def pylint(session):
+    """ Linting for common mistakes """
     session.install("pylint")
     session.install("-r", "requirements.txt")    
     # pylint --rcfile=pylint.rc  foo.py
@@ -59,3 +63,18 @@ def unittest(session):
     # to get command line report: "coverage report"
     # to get command html report: "coverage html"
 
+@nox.session(python=supported_python_versions,venv_backend='venv')
+def docstr_coverage(session):
+    """ Enforcing documentation coverage """
+    session.install("docstr_coverage")
+    session.install("-r", "requirements.txt")    
+    # pylint --rcfile=pylint.rc  foo.py
+    session.run("docstr-coverage","app", "lookup.py")
+
+@nox.session(python=supported_python_versions,venv_backend='venv')
+def pydocstyle(session):
+    """ Enforcing PEP 257 documentation style https://peps.python.org/pep-0257/ """
+    session.install("pydocstyle")
+    session.install("-r", "requirements.txt")    
+    # pylint --rcfile=pylint.rc  foo.py
+    session.run("pydocstyle","app", "lookup.py")
