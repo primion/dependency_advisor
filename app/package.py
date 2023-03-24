@@ -24,9 +24,12 @@ class Package():
     def __init__(self, packagename: str, db_file: str, alternative_names: Optional[List[str]] = None) -> None:
         """Initialize a package.
 
-        @param packagename: Exact name of a package so libraries.io can find it. Maybe test it in thier webui first. Example 'org.apache.tomcat:tomcat'
-        @param db_file: path to the grype db file
-        @param alternative_names: Alternative names for this package. For grype lookups
+        :param packagename: Exact name of a package so libraries.io can find it. Maybe test it in thier webui first. Example 'org.apache.tomcat:tomcat'
+        :type packagename: str
+        :param db_file: path to the grype db file
+        :type db_file: str
+        :param alternative_names: Alternative names for this package. For grype lookups
+        :type alternative_names: a list of str or None
         """
         self.libraries = None              # Raw data from libraries.io
         self.packagename = packagename     # Name of the package, exact. Must match
@@ -42,7 +45,11 @@ class Package():
         self.load_grype()
 
     def latest_stable_version(self) -> Optional[Version]:
-        """Return the latest stable version."""
+        """Return the latest stable version.
+        
+        :return: The latest stable version
+        :rtype: Version or None
+        """
         if self.libraries is None:
             return None
         try:
@@ -50,6 +57,7 @@ class Package():
         except ValueError:
             return None
 
+    # TODO: Check if this can be removed
     def latest_stable_release_date(self) -> Optional[Version]:
         """Return the latest stable release date."""
         if self.libraries is None:
@@ -60,11 +68,16 @@ class Package():
             return None
 
     def latest_version(self) -> Optional[Version]:
-        """Return the latest version."""
+        """Return the latest version.
+        
+        :return: The latest version
+        :rtype: Version or None
+        """
         if self.libraries is None:
             return None
         return Version(self.libraries["latest_release_number"])
 
+    # TODO: Check if this can be removed
     def latest_release_date(self) -> Optional[Version]:
         """Return the latest stable release date."""
         if self.libraries is None:
@@ -72,16 +85,25 @@ class Package():
         return self.libraries["latest_release_published_at"]
 
     def get_release(self, version: Version) -> Optional[Release]:
-        """Get a release by version."""
+        """Get a release by version.
+        
+        :param version: The version of a package to look up
+        :type version: Version
+        :return: The matching release
+        :rtype: Release or None
+        """
         for release in self.releases:
             if release.version == version:
                 return release
         return None
 
     def sorted_releases(self, earliest: Optional[datetime.datetime] = None) -> List[Release]:
-        """Return a list of sorted releases, if earluiest is given: starting there.
+        """Return a list of sorted releases, if earliest is given: starting there.
 
-        @param earliest: Earliest date to add
+        :param earliest: Earliest date to add to the sorted list
+        :type earliest: datetime.datetime or None
+        :return: a sorted list of releases after and including earliest
+        :rtype: list of Release
         """
         res = []
         for release in self.releases:
@@ -94,8 +116,12 @@ class Package():
     def sorted_releases_str(self, earliest: Optional[datetime.datetime] = None, details: bool = False) -> str:
         """Return a string containing date and version.
 
-        @param earliest: Date of earliest release to include in the list
-        @param details: Also list the different vulnerabilities by severity
+        :param earliest: Date of earliest release to include in the list
+        :type earliest: datetime.datetime or None
+        :param details: Also list the different vulnerabilities by severity
+        :type details: bool
+        :return: a text list of releases
+        :rtype: str
         """
         res = ""
         for release in self.sorted_releases(earliest):
@@ -252,7 +278,10 @@ class Package():
     def vulnerability_list(self, check_version: Union[str, Version]) -> List[Vulnerability]:
         """Check grype for the package and returns all found vulnerabilities.
 
-        @param check_version: Returns a list of vulnerabilities matching for that version
+        :param check_version: Returns a list of vulnerabilities matching for that version
+        :type check_version: str or Version
+        :return: all found vulnerabilities
+        :rtype: list of vulnerabilities
         """
         found_vulnerabilities = []
 
@@ -268,7 +297,15 @@ class Package():
         return found_vulnerabilities
 
     def count_vulnerabilities(self, rel: Release, severity: Severity) -> int:
-        """Return numbers of vulnerabilities of a given severity."""
+        """Return numbers of vulnerabilities of a given severity.
+        
+        :param rel: the release to count vulnerabilities in
+        :type rel: Release
+        :param severity: severity of vulnerabilities to count
+        :type severity: Severity
+        :return: Number of vulnerabilities of given severity
+        :rtype: int
+        """
         res = 0
 
         for vulnerability in self.vulnerability_list(rel.version):
@@ -277,7 +314,13 @@ class Package():
         return res
 
     def severity_dict(self, check_version: Union[str, Version]) -> dict[Severity, int]:
-        """Create a severity dict for this version."""
+        """Create a severity dict for this version.
+        
+        :param check_version: The version to check
+        :type check_version: str or Version
+        :return: A dict of severities and their count in this version
+        :rtype: a dict of severity and int
+        """
         res = {Severity.LOW: 0,
                Severity.MEDIUM: 0,
                Severity.HIGH: 0,

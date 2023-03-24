@@ -5,4 +5,5 @@ This class handles version numbers. Each release has a version number. There are
 
 .. autoclass:: app.version.Version
     :members:
+    :special-members: __init__
     :member-order: bysource

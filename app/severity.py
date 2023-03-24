@@ -24,6 +24,9 @@ class Severity(IntEnum):
         4.0-6.9        Medium
         7.0-8.9        High
         9.0-10.0       Critical
+
+        :param user_date: a text or CVSS description of the severity
+        :type user_data: either a str, int or float
         """
         textmatch = {"NEGLIGIBLE": cls.LOW,    # Yeah, seriously. DB is haunted.
                      "UNKNOWN": cls.LOW,    # Yeah, seriously. DB is haunted.
@@ -61,5 +64,9 @@ class Severity(IntEnum):
         raise ValueError
 
     def __str__(self) -> str:
-        """Return the name-text of the enum."""
+        """Return the name-text of the enum.
+        
+        :return: the name-text of the enum. The severity as in CRITICAL or LOW
+        :rtype: str
+        """
         return self.name
