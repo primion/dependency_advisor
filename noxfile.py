@@ -73,7 +73,11 @@ def docstr_coverage(session):
 
 @nox.session(python=supported_python_versions,venv_backend='venv')
 def pydocstyle(session):
-    """ Enforcing PEP 257 documentation style https://peps.python.org/pep-0257/ """
+    """ Enforcing PEP 257 documentation style https://peps.python.org/pep-0257/ 
+    
+    We are using sphinx doc. There is an open PR for sphinx parameters https://github.com/PyCQA/pydocstyle/pull/595
+    So we do not have a support for parameter checks yet.
+    """
     session.install("pydocstyle")
     session.install("-r", "requirements.txt")    
     # pylint --rcfile=pylint.rc  foo.py
