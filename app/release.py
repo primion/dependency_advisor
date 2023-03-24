@@ -38,7 +38,7 @@ class Release():
 
     def add_vulnerability(self, vulnerability: Vulnerability) -> None:
         """Add a vulnerability to this version.
-        
+
         :param vulnerability: The vulnerability to add to this release
         :type vulnerability: Vulnerability
         """
@@ -46,7 +46,7 @@ class Release():
 
     def __str__(self) -> str:
         """Return a detailed string for the release also containing the CVEs.
-        
+
         :return: a string description of this Release
         :rtype: str
         """

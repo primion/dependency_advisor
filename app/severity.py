@@ -65,7 +65,7 @@ class Severity(IntEnum):
 
     def __str__(self) -> str:
         """Return the name-text of the enum.
-        
+
         :return: the name-text of the enum. The severity as in CRITICAL or LOW
         :rtype: str
         """

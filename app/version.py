@@ -76,7 +76,7 @@ class Version():  # type: ignore
 
     def __str__(self) -> str:
         """Re-generate a version string. This can be different from the one this class was generated from, because it was processes and normalized.
-        
+
         :return: A version string
         :rtype: str
         """
@@ -85,15 +85,15 @@ class Version():  # type: ignore
     @property
     def version(self) -> Tuple[int, int, int, int]:
         """Return the version number as 4 int tuple.
-        
+
         :return: A version tuple
-        :rtype: a tuple of 4 int        
+        :rtype: a tuple of 4 int
         """
         return self.major, self.minor, self.build, self.extension
 
     def __eq__(self, other) -> bool:  # type: ignore
         """Check if two version classes are equal.
-        
+
         :param other: The other version to compare to
         :type other: Version
         :return: True if both versions are equal
@@ -103,7 +103,7 @@ class Version():  # type: ignore
 
     def __lt__(self, other) -> bool:  # type: ignore
         """Check if a version class is smaller than the other.
-        
+
         :param other: The other version to compare to
         :type other: Version
         :return: True if the first version is lower than the second

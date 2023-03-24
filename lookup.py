@@ -10,7 +10,7 @@ from app.package import Package, Version
 
 def subparser_list(arguments: argparse.Namespace) -> None:
     """Handle sub command list.
-    
+
     :param arguments: command line arguments
     :type arguments: argparse.Namespace
     :return: None
@@ -22,7 +22,7 @@ def subparser_list(arguments: argparse.Namespace) -> None:
 
 def subparser_check(arguments: argparse.Namespace) -> None:
     """Check a specific version.
-    
+
     :param arguments: command line arguments
     :type arguments: argparse.Namespace
     :return: None
@@ -38,7 +38,7 @@ def subparser_check(arguments: argparse.Namespace) -> None:
 
 def subparser_alternatives(arguments: argparse.Namespace) -> None:
     """Handle sub command list.
-    
+
     :param arguments: command line arguments
     :type arguments: argparse.Namespace
     :return: None
@@ -54,7 +54,7 @@ def subparser_alternatives(arguments: argparse.Namespace) -> None:
 
 def subparser_grype(arguments: argparse.Namespace) -> None:
     """Direct grype call to test the database.
-    
+
     :param arguments: command line arguments
     :type arguments: argparse.Namespace
     :return: None

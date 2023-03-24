@@ -46,7 +46,7 @@ class Package():
 
     def latest_stable_version(self) -> Optional[Version]:
         """Return the latest stable version.
-        
+
         :return: The latest stable version
         :rtype: Version or None
         """
@@ -69,7 +69,7 @@ class Package():
 
     def latest_version(self) -> Optional[Version]:
         """Return the latest version.
-        
+
         :return: The latest version
         :rtype: Version or None
         """
@@ -86,7 +86,7 @@ class Package():
 
     def get_release(self, version: Version) -> Optional[Release]:
         """Get a release by version.
-        
+
         :param version: The version of a package to look up
         :type version: Version
         :return: The matching release
@@ -298,7 +298,7 @@ class Package():
 
     def count_vulnerabilities(self, rel: Release, severity: Severity) -> int:
         """Return numbers of vulnerabilities of a given severity.
-        
+
         :param rel: the release to count vulnerabilities in
         :type rel: Release
         :param severity: severity of vulnerabilities to count
@@ -315,7 +315,7 @@ class Package():
 
     def severity_dict(self, check_version: Union[str, Version]) -> dict[Severity, int]:
         """Create a severity dict for this version.
-        
+
         :param check_version: The version to check
         :type check_version: str or Version
         :return: A dict of severities and their count in this version
