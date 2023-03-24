@@ -2,3 +2,4 @@ pybraries
 mypy
 nox
 bandit
+sphinx
