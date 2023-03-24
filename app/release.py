@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-""" A class describing a package release """
+"""A class describing a package release."""
 
 import datetime
 from typing import List, Union, Optional
@@ -10,10 +10,10 @@ from app.vulnerability import Vulnerability
 
 
 class Release():
-    """ A specific release of the package """
+    """A specific release of the package."""
 
     def __init__(self, version: Union[Version, Optional[str]], published_at: Union[datetime.datetime, str]):
-        """
+        """Initialize the release class.
 
         @param version: Version or str to parse
         @param published_at: datetime.datetime or str to parse
@@ -35,10 +35,11 @@ class Release():
         self.vulnerabilities: List[Vulnerability] = []
 
     def add_vulnerability(self, vulnerability: Vulnerability) -> None:
-        """ Adds a vulnerability to this version """
+        """Add a vulnerability to this version."""
         self.vulnerabilities.append(vulnerability)
 
     def __str__(self) -> str:
+        """Return a detailed string for the release also containing the CVEs."""
         cves: List[str] = []
         for vulnerability in self.vulnerabilities:
             cves = cves + vulnerability.get_cves()

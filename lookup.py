@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-""" CLI to the dependency lookup tool
-
-"""
+"""CLI for the dependency lookup tool."""
 
 import argparse
 import os
@@ -11,15 +9,14 @@ from app.package import Package, Version
 
 
 def subparser_list(arguments: argparse.Namespace) -> None:
-    """ Handle sub command list """
-
+    """Handle sub command list."""
     apackage = Package(arguments.packagename, arguments.grype_db, alternative_names=arguments.alternative_names.split(","))
     print("Releases sorted by date")
     print(apackage.sorted_releases_str())
 
 
 def subparser_check(arguments: argparse.Namespace) -> None:
-    """ Check a specific version """
+    """Check a specific version."""
     apackage = Package(arguments.packagename, arguments.grype_db, alternative_names=arguments.alternative_names.split(","))
 
     vulnerabilities = apackage.vulnerability_list(arguments.packageversion)
@@ -30,8 +27,7 @@ def subparser_check(arguments: argparse.Namespace) -> None:
 
 
 def subparser_alternatives(arguments: argparse.Namespace) -> None:
-    """ Handle sub command list """
-
+    """Handle sub command list."""
     apackage = Package(arguments.packagename, arguments.grype_db, alternative_names=arguments.alternative_names.split(","))
     print("Releases sorted by date")
     earliest = None
@@ -42,8 +38,7 @@ def subparser_alternatives(arguments: argparse.Namespace) -> None:
 
 
 def subparser_grype(arguments: argparse.Namespace) -> None:
-    """ Direct grype call to test the database """
-
+    """Direct grype call to test the database."""
     apackage = Package(arguments.packagename, arguments.grype_db, alternative_names=arguments.alternative_names.split(","))
     apackage.test_grype()
 

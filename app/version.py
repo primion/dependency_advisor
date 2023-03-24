@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" Class for flexible version handling """
+"""Class for flexible version handling."""
 
 from functools import total_ordering
 import re
@@ -9,8 +9,13 @@ from typing import Optional, Tuple
 
 @total_ordering
 class Version():  # type: ignore
-    """ Handline version strings major.minor.build-extension style """
+    """A class for version strings. Those are major.minor.build-extension style."""
+
     def __init__(self, as_string: Optional[str]) -> None:
+        """Initialize a version.
+
+        @param as_string: the Version string to generate the version class from
+        """
         if as_string is None:
             raise ValueError()
         as_string = as_string.strip()
@@ -69,15 +74,18 @@ class Version():  # type: ignore
                 self.extension = 0
 
     def __str__(self) -> str:
+        """Re-generate a version string. This can be different from the one this class was generated from, because it was processes and normalized."""
         return f"{self.major}.{self.minor}.{self.build}-{self.extension}"
 
     @property
     def version(self) -> Tuple[int, int, int, int]:
-        """ The version number as 4 int tuple """
+        """Return the version number as 4 int tuple."""
         return self.major, self.minor, self.build, self.extension
 
     def __eq__(self, other) -> bool:  # type: ignore
+        """Check if two version classes are equal."""
         return self.version == other.version
 
     def __lt__(self, other) -> bool:  # type: ignore
+        """Check if a version class is smaller than the other."""
         return self.version < other.version
