@@ -9,7 +9,7 @@ import os
 import sqlite3
 # from pprint import pprint
 from sqlite3 import Error
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Any
 
 from pybraries.search import Search  # type: ignore
 from app.severity import Severity
@@ -168,8 +168,43 @@ class Package():
                     for release in self.libraries["versions"]:
                         self.releases.append(Release(release["number"], release["published_at"]))
                 self.license = package["repository_license"]
-                
+
         self.releases.sort(key=sortkey)
+
+    def get_grype_scheme(self, cur: sqlite3.Cursor) -> int:
+        """Get the grype database scheme.
+
+        :param cur: database cursor
+        :type cur: Cursor
+        :return: The number indicating the database scheme
+        :rtype: int
+        """
+        # Check Db has current scheme of 5
+        cur.execute("SELECT schema_version from id")
+        return cur.fetchone()[0]
+
+    def find_package_in_grype_vulnerability(self, cur: sqlite3.Cursor, packagename: str) -> List[Any]:
+        """Get the the list of entries for a package in the grype vulnerability database.
+
+        :param cur: database cursor
+        :type cur: Cursor
+        :param packagename: the name of the package to look up
+        :type packagename: str
+        """
+        selector = (packagename,)
+        cur.execute("SELECT * FROM vulnerability WHERE package_name like ?", selector)
+        return cur.fetchall()
+
+    def find_metadata_in_grype_vulnerability_metadata(self, cur: sqlite3.Cursor, package_id: str) -> Any:
+        """Get the metadata entry for a vulnerability.
+
+        :param cur: database cursor
+        :type cur: Cursor
+        :param id: the id of the vulnerability
+        :type packagename: str
+        """
+        cur.execute("SELECT * FROM vulnerability_metadata WHERE id = ?", (package_id,))
+        return cur.fetchone()
 
     def test_grype(self) -> None:
         """Check the grype DB, print out everything found by package name as SQL text.
@@ -185,18 +220,14 @@ class Package():
 
             stats = []
 
-            # t = ("%"+keywords+"%",)
-            selector = (self.packagename,)
-            cur.execute("SELECT * FROM vulnerability WHERE package_name like ?", selector)
-            rows = cur.fetchall()
+            rows = self.find_package_in_grype_vulnerability(cur, self.packagename)
+
             stats.append(f"Found {len(rows)} entries in grype for {self.packagename}")
             for row in rows:
                 print(row)
 
             for aname in self.alternative_names:
-                selector = (aname,)
-                cur.execute("SELECT * FROM vulnerability WHERE package_name like ?", selector)
-                rows = cur.fetchall()
+                rows = self.find_package_in_grype_vulnerability(cur, aname)
                 stats.append(f"Found {len(rows)} entries in grype for {aname}")
                 for row in rows:
                     print(row)
@@ -217,23 +248,20 @@ class Package():
 
             cur = conn.cursor()
 
+            if self.get_grype_scheme(cur) != 5:
+                raise ValueError("Wrong Grype database scheme")
+
             # t = ("%"+keywords+"%",)
-            selector = (self.packagename,)
-            cur.execute("SELECT * FROM vulnerability WHERE package_name like ?", selector)
-            rows = cur.fetchall()
+            rows = self.find_package_in_grype_vulnerability(cur, self.packagename)
+
             print(f"Found {len(rows)} entries in grype for {self.packagename}")
 
             for aname in self.alternative_names:
-                selector = (aname,)
-                cur.execute("SELECT * FROM vulnerability WHERE package_name like ?", selector)
-                rows2 = cur.fetchall()
-                print(f"Found {len(rows2)} entries in grype for {aname}")
-                rows = rows + rows2
+                rows = rows + self.find_package_in_grype_vulnerability(cur, aname)
 
             for row in rows:
-                cur.execute("SELECT * FROM vulnerability_metadata WHERE id = ?", (row[1],))
-                metadata = cur.fetchone()
-                # name = row[2]
+                metadata = self.find_metadata_in_grype_vulnerability_metadata(cur, row[1])
+
                 version = row[5]
                 cve_data = row[8]
                 cves = []
