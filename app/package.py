@@ -154,6 +154,9 @@ class Package():
 
             info = search.project_search(keywords=self.packagename)  # , sort='stars', platform='pypi'
 
+            if not os.path.exists("cache"):
+                os.makedirs("cache")
+
             with open(filename, "wt", encoding="utf-8") as filehandle:
                 filehandle.write(json.dumps(info, indent=4))
 
@@ -164,6 +167,8 @@ class Package():
                 if self.libraries is not None:
                     for release in self.libraries["versions"]:
                         self.releases.append(Release(release["number"], release["published_at"]))
+                self.license = package["repository_license"]
+                
         self.releases.sort(key=sortkey)
 
     def test_grype(self) -> None:
