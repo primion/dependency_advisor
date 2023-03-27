@@ -34,6 +34,7 @@ def subparser_check(arguments: argparse.Namespace) -> None:
     for vulnerability in vulnerabilities:
         print(vulnerability)
     print(apackage.severity_dict(arguments.packageversion))
+    print(f"License: {apackage.license}")
 
 
 def subparser_alternatives(arguments: argparse.Namespace) -> None:
